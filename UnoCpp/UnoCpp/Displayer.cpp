@@ -9,6 +9,12 @@ void Displayer::DisplayHeader()
 	std::cout << DEFAULT_DISPLAY_COLOR;
 }
 
+void Displayer::CloseScreen()
+{
+	std::cout << "Closing the application :c" << std::endl;
+	exit(0);
+}
+
 void Displayer::DisplayStartScreen()
 {
 	// display the first screen
