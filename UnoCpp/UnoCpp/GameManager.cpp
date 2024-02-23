@@ -30,9 +30,7 @@ void GameManager::StartGame()
 void GameManager::StartMatch()
 {
 	SetupPlayers();
-	CreateDeck();
-	// shuffle deck
-	// handle cards to players
+	CreatePlayersHands();
 	// select one card to start the board
 	// call match loop
 }
@@ -68,13 +66,15 @@ void GameManager::CreatePlayers(int amount)
 	} 
 }
 
-void GameManager::CreateDeck()
-{
-
-}
-
 void GameManager::CreatePlayersHands()
 {
+	for (Player plr : players)
+	{
+		for (int i = 0; i < HAND_SIZE; i++)
+		{
+			plr.PurchaseCard(deck->DrawCard());
+		}
+	}
 }
 
 void GameManager::HandleWrongInput()

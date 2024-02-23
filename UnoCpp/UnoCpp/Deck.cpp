@@ -65,25 +65,34 @@ void Deck::ShuffleDeck()
 	std::shuffle(std::begin(_drawPile), std::end(_drawPile), rng);
 }
 
-//Card Deck::DrawCard()
-//{
-//	// pop card from the draw pile
-//}
+Card Deck::DrawCard()
+{
+	if (_drawPile.size() == 0)
+	{
+		RefillDrawPile();
+	}
+
+	Card cardToDraw = _drawPile.back();
+	_drawPile.pop_back();
+	return cardToDraw;
+}
 //
 //Card Deck::DiscardCard()
 //{
 //	// push card to the discard pile
 //}
 //
-//void Deck::GivePlayerHand()
-//{
-//	// pop 7 cards from draw pile to give it to player
-//}
 //
-//void Deck::RefillDrawPile()
-//{
-//	//pop all cards from discard pile and pop them into draw pile
-//}
+void Deck::RefillDrawPile()
+{
+	while (!_discardPile.empty())
+	{
+		_drawPile.emplace_back(_discardPile.back());
+		_discardPile.pop_back();
+	}
+
+	ShuffleDeck();
+}
 //
 //bool Deck::ValidateDiscard(Card& cardDiscarted)
 //{

@@ -8,18 +8,14 @@ class Deck
 public:
 	Deck();
 
-	//Card DrawCard();
+	Card DrawCard();
 	//Card DiscardCard();
-
-	//void GivePlayerHand();
-	//void RefillDrawPile();
 
 private:
 	std::vector<Card> _drawPile;
 	std::vector<Card> _discardPile;
 
 	const int DECK_SIZE = 72;
-	const int HAND_SIZE = 7;
 	const int COLOR_QUANTITY = 4;
 	const int REVESE_PER_COLOR = 2;
 	const int PLUSTWO_PER_COLOR = 2;
@@ -35,4 +31,5 @@ private:
 	void CreateWildCards();
 	void CreateCardInDeck(CardColor color, CardAction action, int number);
 	void ShuffleDeck();
+	void RefillDrawPile();
 };

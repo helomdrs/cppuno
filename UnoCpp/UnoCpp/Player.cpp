@@ -6,11 +6,11 @@ Player::Player(std::string name)
 	_name = name;
 }
 
-//void Player::PurchaseCard(Card card)
-//{
-//	 insert card on _handCards list
-//}
-//
+void Player::PurchaseCard(Card card)
+{
+	_handCards.emplace_back(card);
+}
+
 //Card Player::PlayCard()
 //{
 //	 chose a card from the player hand to return so deck can check if its valid

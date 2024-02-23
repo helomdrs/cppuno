@@ -14,10 +14,6 @@ class GameManager
 public:
 	void StartGame();
 	void StartMatch();
-	void SetupPlayers();
-	void CreatePlayers(int amount);
-	void CreateDeck();
-	void CreatePlayersHands();
 private:
 	std::unique_ptr<Displayer> displayer = std::make_unique<Displayer>();
 	std::unique_ptr<InputManager> inputManager = std::make_unique<InputManager>();
@@ -25,5 +21,10 @@ private:
 
 	std::vector<Player> players;
 
+	const int HAND_SIZE = 7;
+
 	void HandleWrongInput();
+	void SetupPlayers();
+	void CreatePlayers(int amount);
+	void CreatePlayersHands();
 };
