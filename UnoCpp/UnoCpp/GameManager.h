@@ -16,9 +16,12 @@ public:
 	void StartMatch();
 	void SetupPlayers();
 	void CreatePlayers(int amount);
+	void CreateDeck();
+	void CreatePlayersHands();
 private:
 	std::unique_ptr<Displayer> displayer = std::make_unique<Displayer>();
 	std::unique_ptr<InputManager> inputManager = std::make_unique<InputManager>();
+	std::unique_ptr<Deck> deck = std::make_unique<Deck>();
 
 	std::vector<Player> players;
 

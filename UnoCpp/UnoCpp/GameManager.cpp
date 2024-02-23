@@ -30,9 +30,7 @@ void GameManager::StartGame()
 void GameManager::StartMatch()
 {
 	SetupPlayers();
-	// select player quantity
-	// create all players
-	// create deck of cards
+	CreateDeck();
 	// shuffle deck
 	// handle cards to players
 	// select one card to start the board
@@ -68,6 +66,15 @@ void GameManager::CreatePlayers(int amount)
 		Player player{ playerName };
 		players.emplace_back(player);
 	} 
+}
+
+void GameManager::CreateDeck()
+{
+
+}
+
+void GameManager::CreatePlayersHands()
+{
 }
 
 void GameManager::HandleWrongInput()

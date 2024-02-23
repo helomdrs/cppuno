@@ -1,25 +1,26 @@
 #pragma once
 #include "Card.h"
 
-#include <stack>
+#include <vector>
 
 class Deck
 {
 public:
 	Deck();
 
-	Card DrawCard();
-	Card DiscardCard();
+	//Card DrawCard();
+	//Card DiscardCard();
 
-	void GivePlayerHand();
-	void RefillDrawPile();
+	//void GivePlayerHand();
+	//void RefillDrawPile();
 
 private:
-	std::stack<Card> _drawPile;
-	std::stack<Card> _discardPile;
+	std::vector<Card> _drawPile;
+	std::vector<Card> _discardPile;
 
-	const int DECK_SIZE = 104;
+	const int DECK_SIZE = 72;
 	const int HAND_SIZE = 7;
+	const int COLOR_QUANTITY = 4;
 	const int REVESE_PER_COLOR = 2;
 	const int PLUSTWO_PER_COLOR = 2;
 	const int BLOCK_PER_COLOR = 2;
@@ -28,5 +29,10 @@ private:
 	const int MIN_NUMBER = 0;
 	const int MAX_NUMBER = 9;
 
-	bool ValidateDiscard(Card& cardDiscarted);
+	//bool ValidateDiscard(Card& cardDiscarted);
+
+	void CreateCards(CardColor color);
+	void CreateWildCards();
+	void CreateCardInDeck(CardColor color, CardAction action, int number);
+	void ShuffleDeck();
 };
