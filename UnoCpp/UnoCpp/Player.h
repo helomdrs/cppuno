@@ -7,12 +7,12 @@
 class Player
 {
 public:
-	Player(std::string&& name);
+	Player(std::string name);
 
-	void PurchaseCard(Card card);
+	/*void PurchaseCard(Card card);
 	Card PlayCard();
 
-	std::string* GetName();
+	std::string* GetName();*/
 
 private:
 	std::list<Card> _handCards;

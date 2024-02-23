@@ -10,10 +10,10 @@ bool InputManager::ValidateInput(InputMoments moment, int choice)
 		isChoiceValid = ValidateStartMenuInput(choice);
 		break;
 	case InputMoments::PlayerQuantity:
-		//check if input is valid for player quantity
+		isChoiceValid = ValidatePlayerQuantityInput(choice);
 		break;
 	case InputMoments::CardChoice:
-		//check if input is valid for card choice
+		isChoiceValid = ValidateCardChoiceInput(choice);
 		break;
 	}
 
@@ -34,7 +34,10 @@ bool InputManager::ValidateStartMenuInput(int choice)
 
 bool InputManager::ValidatePlayerQuantityInput(int choice)
 {
-	return false;
+	return true;
+
+	//comeback here later, this is returning false, need to find a way to validate if this is a number or not
+	//return isdigit(choice);
 }
 
 bool InputManager::ValidateCardChoiceInput(int choice)
