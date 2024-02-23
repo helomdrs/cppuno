@@ -1,7 +1,10 @@
 #pragma once
+
+#include "ProjectData.h"
 #include "Card.h"
 
 #include <vector>
+#include <random>
 
 class Deck
 {

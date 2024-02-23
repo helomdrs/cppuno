@@ -1,5 +1,4 @@
 #include "GameManager.h"
-#include <iostream>
 
 void GameManager::StartGame()
 {
@@ -31,6 +30,9 @@ void GameManager::StartMatch()
 {
 	SetupPlayers();
 	CreatePlayersHands();
+
+	displayer->ClearScreen();
+	SetMatchOrder();
 	// select one card to start the board
 	// call match loop
 }
@@ -38,7 +40,6 @@ void GameManager::StartMatch()
 void GameManager::SetupPlayers()
 {
 	displayer->ClearScreen();
-	displayer->DisplayHeader();
 	std::cout << "How many players will play this match?" << std::endl;
 	
 	int playerAmount;
@@ -75,6 +76,13 @@ void GameManager::CreatePlayersHands()
 			plr.PurchaseCard(deck->DrawCard());
 		}
 	}
+}
+
+void GameManager::SetMatchOrder()
+{
+	auto rng = std::default_random_engine{};
+	std::shuffle(std::begin(players), std::end(players), rng);
+	displayer->DisplayMatchOrder(players, currentOrder);
 }
 
 void GameManager::HandleWrongInput()

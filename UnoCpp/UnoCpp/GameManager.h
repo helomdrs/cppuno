@@ -5,9 +5,12 @@
 #include "Player.h"
 #include "Deck.h"
 #include "InputManager.h"
+#include "ProjectData.h"
 
 #include <memory>
 #include <vector>
+#include <random>
+#include <iostream>
 
 class GameManager
 {
@@ -23,8 +26,11 @@ private:
 
 	const int HAND_SIZE = 7;
 
+	int currentOrder = MatchOrder::CW;
+
 	void HandleWrongInput();
 	void SetupPlayers();
 	void CreatePlayers(int amount);
 	void CreatePlayersHands();
+	void SetMatchOrder();
 };

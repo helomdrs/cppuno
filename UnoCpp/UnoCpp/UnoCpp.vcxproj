@@ -133,6 +133,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ProjectData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Card.cpp" />

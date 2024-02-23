@@ -1,6 +1,4 @@
 #include "Displayer.h"
-#include <stdlib.h>
-#include <iostream>
 
 void Displayer::DisplayHeader()
 {
@@ -13,6 +11,25 @@ void Displayer::CloseScreen()
 {
 	std::cout << "Closing the application :c" << std::endl;
 	exit(0);
+}
+
+void Displayer::DisplayMatchOrder(std::vector<Player>& players, int& order)
+{
+	const char* currentOrder;
+	if (order == MatchOrder::CW)
+	{
+		currentOrder = CLOCKWISE_DIRECTION;
+	}
+	else
+	{
+		currentOrder = COUNTERCLOCKWISE_DIRECTION;
+	}
+
+	std::cout << "Match order is: ";
+	for (Player plr : players)
+	{
+		std::cout << plr.GetName() << currentOrder;
+	}
 }
 
 void Displayer::DisplayStartScreen()
@@ -42,6 +59,7 @@ void Displayer::DisplayPlayerHand()
 void Displayer::ClearScreen()
 {
 	system("cls");
+	DisplayHeader();
 }
 
 void Displayer::WaitForInput()

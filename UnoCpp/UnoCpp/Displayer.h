@@ -1,5 +1,12 @@
 #pragma once
 
+#include "ProjectData.h"
+#include "Player.h"
+
+#include <stdlib.h>
+#include <iostream>
+#include <vector>
+
 class Displayer
 {
 public:
@@ -11,6 +18,7 @@ public:
 	void WaitForInput();
 	void DisplayHeader();
 	void CloseScreen();
+	void DisplayMatchOrder(std::vector<Player>& players, int& order);
 
 private:
 	const char* DEFAULT_DISPLAY_COLOR = "\033[0m";
@@ -26,4 +34,7 @@ private:
 	const char* RULES_DESCRIPTION = "Rules of UNO:\n - Each player can discard one card per turn.\n - Each player can buy only one card per turn if necessary.\n - +4 cards can't be stacked with +2 cards, only with other +4.\n - +2 cards can be stacked with a +4 card.\n\n Wild Cards:\n [PC] Pick Color\n [R] Reverse\n [B] Block\n\n";
 	
 	const char* START_MENU_OPTIONS = "Please select one of the options bellow.\n[1] Start Game\n[2] Exit";
+
+	const char* CLOCKWISE_DIRECTION = " > ";
+	const char* COUNTERCLOCKWISE_DIRECTION = " < ";
 };

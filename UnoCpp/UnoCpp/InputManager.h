@@ -10,7 +10,7 @@ enum InputMoments
 class InputManager
 {
 public:
-	bool ValidateInput(InputMoments moment, int choice);	
+	bool ValidateInput(InputMoments moment, int choice);
 
 private:
 	bool ValidateStartMenuInput(int choice);

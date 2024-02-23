@@ -1,23 +1,6 @@
 #pragma once
 
-enum CardColor
-{
-	Black,
-	Red,
-	Yellow,
-	Blue,
-	Green
-};
-
-enum CardAction
-{
-	Number,
-	Block,
-	Reverse,
-	PickColor,
-	PlusTwo,
-	PlusFour
-};
+#include "ProjectData.h"
 
 struct CardData
 {
@@ -29,8 +12,8 @@ struct CardData
 class Card 
 {
 public:
-	Card(CardColor color, CardAction action, int number = -1);
-	CardData GetCardData() const;
+	Card(CardColor& color, CardAction& action, int& number);
+	//CardData GetCardData() const;
 private:
 	CardData _data;
 };

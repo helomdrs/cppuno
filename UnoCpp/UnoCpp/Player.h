@@ -12,7 +12,7 @@ public:
 	void PurchaseCard(Card card);
 	//Card PlayCard();
 
-	//std::string* GetName();
+	std::string GetName();
 
 private:
 	std::vector<Card> _handCards;
