@@ -11,7 +11,7 @@ class Deck
 public:
 	Deck();
 
-	Card DrawCard();
+	Card& DrawCard();
 	//Card DiscardCard();
 
 private:

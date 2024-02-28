@@ -13,7 +13,7 @@ class Card
 {
 public:
 	Card(CardColor& color, CardAction& action, int& number);
-	//CardData GetCardData() const;
+	CardData GetCardData() const;
 private:
 	CardData _data;
 };

@@ -6,7 +6,7 @@ Card::Card(CardColor& color, CardAction& action, int& number) {
 	_data.number = number;
 }
 
-//CardData Card::GetCardData() const
-//{
-//	return _data;
-//}
+CardData Card::GetCardData() const
+{
+	return _data;
+}

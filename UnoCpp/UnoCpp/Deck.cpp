@@ -63,14 +63,14 @@ void Deck::ShuffleDeck()
 	std::shuffle(std::begin(_drawPile), std::end(_drawPile), rng);
 }
 
-Card Deck::DrawCard()
+Card& Deck::DrawCard()
 {
 	if (_drawPile.size() == 0)
 	{
 		RefillDrawPile();
 	}
 
-	Card cardToDraw = _drawPile.back();
+	Card& cardToDraw = _drawPile.back();
 	_drawPile.pop_back();
 	return cardToDraw;
 }

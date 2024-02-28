@@ -3,22 +3,27 @@
 
 #include <iostream>
 
-Player::Player(std::string name)
+Player::Player(std::string _name)
 {
-	_name = name;
+	name = _name;
 }
 
-void Player::PurchaseCard(Card card)
+void Player::PurchaseCard(Card& card)
 {
-	_handCards.emplace_back(card);
+	handCards.emplace_back(card);
 }
 
-//Card Player::PlayCard()
-//{
-//	 chose a card from the player hand to return so deck can check if its valid
-//}
-//
+const std::vector<Card>& Player::GetHand()
+{
+	return handCards;
+}
+
+Card Player::PlayCard(int index)
+{
+	return handCards[index];
+}
+
 std::string Player::GetName()
 {
-	return _name;
+	return name;
 }

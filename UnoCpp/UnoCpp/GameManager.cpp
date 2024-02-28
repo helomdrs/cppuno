@@ -33,8 +33,7 @@ void GameManager::StartMatch()
 
 	displayer->ClearScreen();
 	SetMatchOrder();
-	// select one card to start the board
-	// call match loop
+	LoopMatch();
 }
 
 void GameManager::SetupPlayers()
@@ -73,7 +72,8 @@ void GameManager::CreatePlayersHands()
 	{
 		for (int i = 0; i < HAND_SIZE; i++)
 		{
-			plr.PurchaseCard(deck->DrawCard());
+			Card& cardToPlayer = deck->DrawCard();
+			plr.PurchaseCard(cardToPlayer);
 		}
 	}
 }
@@ -83,6 +83,132 @@ void GameManager::SetMatchOrder()
 	auto rng = std::default_random_engine{};
 	std::shuffle(std::begin(players), std::end(players), rng);
 	displayer->DisplayMatchOrder(players, currentOrder);
+}
+
+void GameManager::LoopMatch()
+{
+	bool gameOver = false;
+	int playerIndex = 0;
+	int amountForNextPlayerToBuy = 0;
+
+	while (!gameOver)
+	{
+		Player player = players[playerIndex];
+		Card topCardOnBoard = deck->DrawCard();
+		std::vector<Card> playerHand = player.GetHand();
+		
+		UpdateMatchDisplay(player, topCardOnBoard, playerHand);
+		Card cardPlayed = GetCardPlayed(player);
+
+		if (IsCardPlayedValid(topCardOnBoard, cardPlayed))
+		{
+			//make card action
+			switch (cardPlayed.GetCardData().action)
+			{
+			case Block:
+				playerIndex = SelectNextPlayer(playerIndex);
+				break;
+			case Reverse:
+				ToggleCurrentOrder();
+				break;
+			case PickColor:
+				AskForNextColor();
+				break;
+			case PlusTwo:
+				amountForNextPlayerToBuy = 2;
+				break;
+			case PlusFour:
+				amountForNextPlayerToBuy = 4;
+				AskForNextColor();
+				break;
+			}
+		}
+		else
+		{
+			//if player chose and invalid card, purchase another one as punishment
+			player.PurchaseCard(deck->DrawCard());
+		}
+
+		//select next player
+		playerIndex = SelectNextPlayer(playerIndex);
+	}
+}
+
+void GameManager::UpdateMatchDisplay(Player& player, Card& topCardOnBoard, std::vector<Card>& playerHand)
+{
+	displayer->ClearScreen();
+	displayer->DisplayMatchOrder(players, currentOrder);
+	displayer->DisplayMatchBoard(player, topCardOnBoard, playerHand);
+	displayer->WaitForInput();
+}
+
+Card GameManager::GetCardPlayed(Player& player)
+{
+	std::cout << "Select a card to play by their index between []: ";
+
+	int cardIndex = 0;
+	std::cin >> cardIndex;
+
+	if (inputManager->ValidateInput(InputMoments::CardChoice, cardIndex))
+	{
+		return player.PlayCard(cardIndex);
+	}
+	else
+	{
+		HandleWrongInput();
+		GetCardPlayed(player);
+	}
+}
+
+bool GameManager::IsCardPlayedValid(const Card& topCard, const Card& cardPlayed)
+{
+	bool isValid = false;
+
+	CardData topCardData = topCard.GetCardData();
+	CardData cardPlayedData = cardPlayed.GetCardData();
+
+	if ((topCardData.color == cardPlayedData.color or topCardData.number == cardPlayedData.number) or cardPlayedData.color == Black)
+	{
+		isValid = true;
+	}
+
+	return isValid;
+}
+
+void GameManager::ToggleCurrentOrder()
+{
+	if (currentOrder == CW)
+	{
+		currentOrder = CCW;
+	}
+	else
+	{
+		currentOrder = CW;
+	}
+}
+
+void GameManager::AskForNextColor()
+{
+	//ask the player to the next color desired
+}
+
+int GameManager::SelectNextPlayer(int playerIndex)
+{
+	if (currentOrder == CW)
+	{
+		playerIndex++;
+	}
+	else
+	{
+		playerIndex--;
+	}
+	
+	if ((playerIndex > players.size()) or (playerIndex < 0))
+	{
+		playerIndex = 0;
+	}
+
+	return playerIndex;
 }
 
 void GameManager::HandleWrongInput()
