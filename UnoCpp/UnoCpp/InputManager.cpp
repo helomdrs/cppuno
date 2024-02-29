@@ -42,6 +42,6 @@ bool InputManager::ValidatePlayerQuantityInput(int choice)
 
 bool InputManager::ValidateCardChoiceInput(int choice)
 {
-	return false;
+	return true;
 }
 

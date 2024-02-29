@@ -18,7 +18,7 @@ std::vector<Card>& Player::GetHand()
 	return handCards;
 }
 
-Card Player::PlayCard(int index)
+Card& Player::PlayCard(int index)
 {
 	return handCards[index];
 }

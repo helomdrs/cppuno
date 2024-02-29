@@ -10,7 +10,7 @@ public:
 	Player(std::string name);
 
 	void PurchaseCard(Card& card);
-	Card PlayCard(int index);
+	Card& PlayCard(int index);
 	std::vector<Card>& GetHand();
 
 	std::string GetName();

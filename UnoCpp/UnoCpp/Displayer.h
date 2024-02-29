@@ -20,6 +20,7 @@ public:
 	void CloseScreen();
 	void DisplayMatchOrder(std::vector<Player>& players, int& order);
 	void DisplayMatchBoard(Player& player, Card& topCardOnBoard, std::vector<Card>& playerHand);
+	void DisplayPassOption();
 
 private:
 	const char* DEFAULT_DISPLAY_COLOR = "\033[0m";
@@ -36,7 +37,7 @@ private:
 	
 	const char* START_MENU_OPTIONS = "Please select one of the options bellow.\n[1] Start Game\n[2] Exit";
 
-	const char* HAND_MESSAGE = "\n---------------------\nYou hand:\n";
+	const char* LINE_MESSAGE = "\n---------------------\n";
 
 	const char* CLOCKWISE_DIRECTION = " > ";
 	const char* COUNTERCLOCKWISE_DIRECTION = " < ";

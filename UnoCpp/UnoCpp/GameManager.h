@@ -11,6 +11,7 @@
 #include <vector>
 #include <random>
 #include <iostream>
+#include <optional>
 
 class GameManager
 {
@@ -35,9 +36,10 @@ private:
 	void SetMatchOrder();
 	void LoopMatch();
 	void UpdateMatchDisplay(Player& player, Card& topCardOnBoard, std::vector<Card>& playerHand);
-	Card GetCardPlayed(Player& player);
-	bool IsCardPlayedValid(const Card& topCard, const Card& cardPlayed);
+	int GetCardIndexPlayed(Player& player);
+	bool IsCardPlayedValid(Card& topCard, Card& cardPlayed);
 	void ToggleCurrentOrder();
 	void AskForNextColor();
-	int SelectNextPlayer(int playerIndex);
+	int SelectNextPlayer(int playerIndex, bool isBlock);
+	void TreatPlayerCardPurchase(Player& player, int amountToBuy);
 };

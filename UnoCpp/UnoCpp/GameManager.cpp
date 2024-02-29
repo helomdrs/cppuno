@@ -90,59 +90,78 @@ void GameManager::LoopMatch()
 	bool gameOver = false;
 	int playerIndex = 0;
 	int amountForNextPlayerToBuy = 0;
+	Card& topCardOnBoard = deck->DrawCard();
 
 	while (!gameOver)
 	{
 		Player player = players[playerIndex];
-		Card topCardOnBoard = deck->DrawCard();
-
-		//if player have to buy card, buy here and reset 
-		if (amountForNextPlayerToBuy > 0)
-		{
-			for (int i = 0; i < amountForNextPlayerToBuy; i++)
-			{
-				player.PurchaseCard(deck->DrawCard());
-			}
-			
-			amountForNextPlayerToBuy = 0;
-		}
-
 		std::vector<Card>& playerHand = player.GetHand();
 		
 		UpdateMatchDisplay(player, topCardOnBoard, playerHand);
-		Card cardPlayed = GetCardPlayed(player);
 
-		if (IsCardPlayedValid(topCardOnBoard, cardPlayed))
+		int cardPlayedIndex = GetCardIndexPlayed(player);
+
+		if (cardPlayedIndex > 0)
 		{
-			//make card action
-			switch (cardPlayed.GetCardData().action)
+			Card& cardPlayed = player.PlayCard(cardPlayedIndex - 1); //-1 because I applied +1 to display the card index starting with 1 instead of 0
+
+			if (IsCardPlayedValid(topCardOnBoard, cardPlayed))
 			{
-			case Block:
-				playerIndex = SelectNextPlayer(playerIndex);
-				break;
-			case Reverse:
-				ToggleCurrentOrder();
-				break;
-			case PickColor:
-				AskForNextColor();
-				break;
-			case PlusTwo:
-				amountForNextPlayerToBuy = 2;
-				break;
-			case PlusFour:
-				amountForNextPlayerToBuy = 4;
-				AskForNextColor();
-				break;
+				//make card action
+				switch (cardPlayed.GetCardData().action)
+				{
+				case Block:
+					playerIndex = SelectNextPlayer(playerIndex, true);
+					break;
+				case Reverse:
+					ToggleCurrentOrder();
+					break;
+				case PickColor:
+					AskForNextColor();
+					break;
+				case PlusTwo:
+					amountForNextPlayerToBuy += 2;
+					break;
+				case PlusFour:
+					amountForNextPlayerToBuy += 4;
+					AskForNextColor();
+					break;
+				}
+
+				topCardOnBoard = cardPlayed;
+			}
+			else
+			{
+				TreatPlayerCardPurchase(player, amountForNextPlayerToBuy);
+				amountForNextPlayerToBuy = 0;
 			}
 		}
 		else
 		{
-			//if player chose and invalid card, purchase another one as punishment
-			player.PurchaseCard(deck->DrawCard());
+			TreatPlayerCardPurchase(player, amountForNextPlayerToBuy);
+			amountForNextPlayerToBuy = 0;
 		}
 
 		//select next player
-		playerIndex = SelectNextPlayer(playerIndex);
+		playerIndex = SelectNextPlayer(playerIndex, false);
+	}
+}
+
+void GameManager::TreatPlayerCardPurchase(Player& player, int amountToBuy)
+{
+	// if there's no card to be played or player chose an invalid card, purchase the amount indicated
+	if (amountToBuy > 0)
+	{
+		for (int i = 0; i < amountToBuy; i++)
+		{
+			player.PurchaseCard(deck->DrawCard());
+		}
+
+		amountToBuy = 0;
+	}
+	else
+	{
+		player.PurchaseCard(deck->DrawCard());
 	}
 }
 
@@ -153,32 +172,40 @@ void GameManager::UpdateMatchDisplay(Player& player, Card& topCardOnBoard, std::
 	displayer->DisplayMatchBoard(player, topCardOnBoard, playerHand);
 }
 
-Card GameManager::GetCardPlayed(Player& player)
+int GameManager::GetCardIndexPlayed(Player& player)
 {
 	std::cout << "Select a card to play by their index between []: ";
 
 	int cardIndex = 0;
-	std::cin >> cardIndex;
+	std::cin >> cardIndex; 
 
-	if (inputManager->ValidateInput(InputMoments::CardChoice, cardIndex))
+	//check if player passed their turn
+	if (cardIndex == 0)
+		return 0;
+
+	if (cardIndex <= static_cast<int>(player.GetHand().size()))
 	{
-		return player.PlayCard(cardIndex);
+		return cardIndex;
 	}
 	else
 	{
 		HandleWrongInput();
-		GetCardPlayed(player);
+		GetCardIndexPlayed(player);
 	}
 }
 
-bool GameManager::IsCardPlayedValid(const Card& topCard, const Card& cardPlayed)
+bool GameManager::IsCardPlayedValid(Card& topCard, Card& cardPlayed)
 {
 	bool isValid = false;
 
 	CardData topCardData = topCard.GetCardData();
 	CardData cardPlayedData = cardPlayed.GetCardData();
 
-	if ((topCardData.color == cardPlayedData.color or topCardData.number == cardPlayedData.number) or cardPlayedData.color == Black)
+	bool hasTheSameColor = topCardData.color == cardPlayedData.color;
+	bool hasTheSameNumber = topCardData.number == cardPlayedData.number;
+	bool isWildCard = cardPlayedData.color == Black;
+
+	if ((hasTheSameColor or hasTheSameNumber) or isWildCard)
 	{
 		isValid = true;
 	}
@@ -203,20 +230,31 @@ void GameManager::AskForNextColor()
 	//ask the player to the next color desired
 }
 
-int GameManager::SelectNextPlayer(int playerIndex)
+int GameManager::SelectNextPlayer(int playerIndex, bool isBlock)
 {
 	if (currentOrder == CW)
 	{
 		playerIndex++;
+
+		if (playerIndex >= static_cast<int>(players.size()))
+		{
+			if (isBlock)
+				playerIndex = 1;
+			else
+				playerIndex = 0;
+		}
 	}
 	else
 	{
 		playerIndex--;
-	}
-	
-	if ((playerIndex > players.size()) or (playerIndex < 0))
-	{
-		playerIndex = 0;
+
+		if (playerIndex < 0)
+		{
+			if (isBlock)
+				playerIndex = (static_cast<int>(players.size()) - 1);
+			else
+				playerIndex = 0;
+		}
 	}
 
 	return playerIndex;

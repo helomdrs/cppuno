@@ -34,12 +34,13 @@ void Displayer::DisplayMatchOrder(std::vector<Player>& players, int& order)
 
 void Displayer::DisplayMatchBoard(Player& player, Card& topCardOnBoard, std::vector<Card>& playerHand)
 {
-	std::cout << "\n Board: ";
+	std::cout << LINE_MESSAGE;
+	std::cout << "Board: ";
 	DisplayCard(topCardOnBoard);
+	std::cout << LINE_MESSAGE;
+	std::cout << player.GetName() << " hand:\n";
 
-	std::cout << DEFAULT_DISPLAY_COLOR;
-	std::cout << HAND_MESSAGE;
-
+	DisplayPassOption();
 	for (int i  = 0; i < playerHand.size(); i++)
 	{
 		std::cout << DEFAULT_DISPLAY_COLOR;
@@ -49,6 +50,12 @@ void Displayer::DisplayMatchBoard(Player& player, Card& topCardOnBoard, std::vec
 	}
 
 	std::cout << DEFAULT_DISPLAY_COLOR;
+}
+
+void Displayer::DisplayPassOption()
+{
+	std::cout << DEFAULT_DISPLAY_COLOR;
+	std::cout << "[0]\tPASS\n";
 }
 
 void Displayer::DisplayCard(Card& card)
@@ -77,12 +84,15 @@ void Displayer::DisplayCard(Card& card)
 	if (cardData.action != Number)
 	{
 		std::cout << "[" << CardActionsIndex[cardData.action] << "]";
+		std::cout << DEFAULT_DISPLAY_COLOR;
 		return;
 	}
 	else
 	{
 		std::cout << "[" << cardData.number << "]";
 	}
+
+	std::cout << DEFAULT_DISPLAY_COLOR;
 }
 
 void Displayer::DisplayStartScreen()
