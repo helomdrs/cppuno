@@ -68,7 +68,7 @@ void GameManager::CreatePlayers(int amount)
 
 void GameManager::CreatePlayersHands()
 {
-	for (Player plr : players)
+	for (Player& plr : players)
 	{
 		for (int i = 0; i < HAND_SIZE; i++)
 		{
@@ -95,7 +95,19 @@ void GameManager::LoopMatch()
 	{
 		Player player = players[playerIndex];
 		Card topCardOnBoard = deck->DrawCard();
-		std::vector<Card> playerHand = player.GetHand();
+
+		//if player have to buy card, buy here and reset 
+		if (amountForNextPlayerToBuy > 0)
+		{
+			for (int i = 0; i < amountForNextPlayerToBuy; i++)
+			{
+				player.PurchaseCard(deck->DrawCard());
+			}
+			
+			amountForNextPlayerToBuy = 0;
+		}
+
+		std::vector<Card>& playerHand = player.GetHand();
 		
 		UpdateMatchDisplay(player, topCardOnBoard, playerHand);
 		Card cardPlayed = GetCardPlayed(player);
@@ -139,7 +151,6 @@ void GameManager::UpdateMatchDisplay(Player& player, Card& topCardOnBoard, std::
 	displayer->ClearScreen();
 	displayer->DisplayMatchOrder(players, currentOrder);
 	displayer->DisplayMatchBoard(player, topCardOnBoard, playerHand);
-	displayer->WaitForInput();
 }
 
 Card GameManager::GetCardPlayed(Player& player)

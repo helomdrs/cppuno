@@ -47,6 +47,8 @@ void Displayer::DisplayMatchBoard(Player& player, Card& topCardOnBoard, std::vec
 		DisplayCard(playerHand[i]);
 		std::cout << "\n";
 	}
+
+	std::cout << DEFAULT_DISPLAY_COLOR;
 }
 
 void Displayer::DisplayCard(Card& card)

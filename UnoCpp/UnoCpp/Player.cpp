@@ -10,10 +10,10 @@ Player::Player(std::string _name)
 
 void Player::PurchaseCard(Card& card)
 {
-	handCards.emplace_back(card);
+	handCards.push_back(card);
 }
 
-const std::vector<Card>& Player::GetHand()
+std::vector<Card>& Player::GetHand()
 {
 	return handCards;
 }

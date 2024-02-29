@@ -11,7 +11,7 @@ public:
 
 	void PurchaseCard(Card& card);
 	Card PlayCard(int index);
-	const std::vector<Card>& GetHand();
+	std::vector<Card>& GetHand();
 
 	std::string GetName();
 
