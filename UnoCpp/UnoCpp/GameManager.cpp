@@ -94,7 +94,7 @@ void GameManager::LoopMatch()
 
 	while (!gameOver)
 	{
-		Player player = players[playerIndex];
+		Player& player = players[playerIndex];
 		std::vector<Card>& playerHand = player.GetHand();
 		
 		UpdateMatchDisplay(player, topCardOnBoard, playerHand);
@@ -103,7 +103,9 @@ void GameManager::LoopMatch()
 
 		if (cardPlayedIndex > 0)
 		{
-			Card& cardPlayed = player.PlayCard(cardPlayedIndex - 1); //-1 because I applied +1 to display the card index starting with 1 instead of 0
+			// -1 because I applied + 1 to display the card index starting with 1 instead of 0
+			cardPlayedIndex -= 1;
+			Card& cardPlayed = player.PlayCard(cardPlayedIndex); 
 
 			if (IsCardPlayedValid(topCardOnBoard, cardPlayed))
 			{
@@ -129,6 +131,10 @@ void GameManager::LoopMatch()
 				}
 
 				topCardOnBoard = cardPlayed;
+
+				//remove card from player hand and put it on discard pile
+				deck->DiscardCard(cardPlayed);
+				player.RemoveCard(cardPlayedIndex);
 			}
 			else
 			{

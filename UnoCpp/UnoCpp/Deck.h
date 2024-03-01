@@ -12,7 +12,7 @@ public:
 	Deck();
 
 	Card& DrawCard();
-	//Card DiscardCard();
+	void DiscardCard(Card& cardPlayed);
 
 private:
 	std::vector<Card> _drawPile;
@@ -27,8 +27,6 @@ private:
 	const int PICKCOLOR_PER_DECK = 4;
 	const int MIN_NUMBER = 0;
 	const int MAX_NUMBER = 9;
-
-	//bool ValidateDiscard(Card& cardDiscarted);
 
 	void CreateCards(CardColor color);
 	void CreateWildCards();

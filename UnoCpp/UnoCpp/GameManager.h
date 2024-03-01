@@ -11,7 +11,6 @@
 #include <vector>
 #include <random>
 #include <iostream>
-#include <optional>
 
 class GameManager
 {

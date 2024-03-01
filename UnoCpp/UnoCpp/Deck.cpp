@@ -74,13 +74,12 @@ Card& Deck::DrawCard()
 	_drawPile.pop_back();
 	return cardToDraw;
 }
-//
-//Card Deck::DiscardCard()
-//{
-//	// push card to the discard pile
-//}
-//
-//
+
+void Deck::DiscardCard(Card& cardPlayed)
+{
+	_discardPile.emplace_back(cardPlayed);
+}
+
 void Deck::RefillDrawPile()
 {
 	while (!_discardPile.empty())
@@ -91,8 +90,3 @@ void Deck::RefillDrawPile()
 
 	ShuffleDeck();
 }
-//
-//bool Deck::ValidateDiscard(Card& cardDiscarted)
-//{
-//	// validate number and color of card with the top of discard pile
-//}

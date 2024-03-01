@@ -23,6 +23,11 @@ Card& Player::PlayCard(int index)
 	return handCards[index];
 }
 
+void Player::RemoveCard(int index)
+{
+	handCards.erase(handCards.begin() + index);
+}
+
 std::string Player::GetName()
 {
 	return name;
